@@ -1,0 +1,18 @@
+{
+    "hosts": [
+        "ca-helper"
+    ],
+    "key": {
+        "algo": "rsa",
+        "size": 4096
+    },
+    "names": [
+        {
+            "C": "AT",
+            "L": "Lab",
+            "O": "not a productive CA",
+            "OU": "WWW",
+            "ST": "Internet"
+        }
+    ]
+}

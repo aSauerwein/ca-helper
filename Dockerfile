@@ -10,7 +10,9 @@ COPY . .
 
 RUN poetry config virtualenvs.create false
 RUN poetry install --no-dev
-RUN install cfssl /usr/bin/cfssl
+
+RUN install bin/cfssl /usr/bin/cfssl
+RUN install bin/cfssljson /usr/bin/cfssljson
 
 ENV PATH /code:$PATH
 
