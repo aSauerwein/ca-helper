@@ -112,3 +112,45 @@ def create_cert():
         as_attachment=True,
         cache_timeout=1,
     )
+
+
+@app.route("/upload-csr", methods=["POST"])
+def upload_csr():
+    file = request.files["file"]
+    csr = file.stream.read().decode()
+    crt_output = run(
+        [
+            "cfssl",
+            "sign",
+            "-ca",
+            root_crt_path,
+            "-ca-key",
+            root_key_path,
+            "-",
+        ],
+        stdout=PIPE,
+        input=csr,
+        encoding="ascii",
+    )
+    if crt_output.returncode != 0:
+        return {
+            "message": "could not create crt",
+            "returncode": crt_output.returncode,
+        }
+    crt_dict = json.loads(crt_output.stdout)
+    memory_file = BytesIO()
+    memory_file.seek(0)
+    with zipfile.ZipFile(memory_file, "w") as zf:
+        data = zipfile.ZipInfo("crt.pem")
+        data.compress_type = zipfile.ZIP_DEFLATED
+        zf.writestr(data, crt_dict["cert"])
+        data = zipfile.ZipInfo("crt.csr")
+        data.compress_type = zipfile.ZIP_DEFLATED
+        zf.writestr(data, csr)
+    memory_file.seek(0)
+    return send_file(
+        memory_file,
+        attachment_filename="crt.zip",
+        as_attachment=True,
+        cache_timeout=1,
+    )
