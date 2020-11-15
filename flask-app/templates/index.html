@@ -1,0 +1,33 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}This is an example page{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+  <!-- ... -->
+</div>
+{% endblock %}
+
+{% block content %}
+<h1>Hello, Bootstrap</h1>
+{% if rootca %}
+Root ca file already exists
+<a href={{url_for('.static', filename='rootca.pem')}} download>download root CA</a>
+{% else %}
+no root ca cert yet. click init-ca to create
+{% endif %}
+<input id="init-ca" type="submit" name="submit_button" value="init-ca">
+<h1>Create Leaf Cert + Key</h1>
+<form id="create-cert-form" action="create-cert" method="POST">
+  <label for="CN">Subject Common Name</label>
+  <input type="text" id="CN" name="CN" /><br><br>
+  <label for="SAN">Subject Alternative Names ( separate by , )</label>
+  <input type="text" id="SAN" name="SAN" /><br><br>
+  <input id="create-cert" type="submit" value="Submit" />
+</form>
+{% endblock %}
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+  integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+<script src="{{url_for('.static', filename='main.js')}}"></script>
+{{super()}}
+{% endblock %}
