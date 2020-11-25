@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_form %}
+{% block content %}
+    {{super()}}
+    {{ render_form(form) }}
+{% endblock %}
+
+
+

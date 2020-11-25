@@ -1,26 +1,20 @@
-import json
-import zipfile
-from io import BytesIO
+from datetime import datetime
+from flask import render_template, session, redirect, url_for
+from . import main
+from .forms import NameForm
+from .. import db
+from ..models import User
 from pathlib import Path
-from subprocess import PIPE, run
-
-from flask import Flask, render_template, request, send_file
-from flask_bootstrap import Bootstrap
-
-app = Flask(__name__)
-app.config.from_pyfile("config.py")
-Bootstrap(app)
 
 root_key_path = Path("cfssl-ca/rootca.key")
 root_crt_path = Path("flask-app/static/rootca.pem")
 
-
-@app.route("/")
-def hello():
+@main.route("/")
+def index():
     return render_template("index.html", rootca=root_crt_path.is_file())
 
 
-@app.route("/init-ca")
+@main.route("/init-ca")
 def init_ca():
     # create cfssl ca directory
     ca_folder = Path("cfssl-ca")
@@ -50,7 +44,7 @@ def init_ca():
     }
 
 
-@app.route("/create-cert", methods=["POST"])
+@main.route("/create-cert", methods=["POST"])
 def create_cert():
     csr = app.config["LEAF"]
     csr["hosts"] = request.form.get("SAN").split(",")
@@ -114,7 +108,7 @@ def create_cert():
     )
 
 
-@app.route("/upload-csr", methods=["POST"])
+@main.route("/upload-csr", methods=["POST"])
 def upload_csr():
     file = request.files["file"]
     csr = file.stream.read().decode()
