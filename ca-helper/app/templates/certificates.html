@@ -4,5 +4,5 @@
     {{super()}}
     <a class="btn btn-primary" href="{{url_for('.new_certificate')}}">ADD</a>
     <h1>Certificates</h1>
-    {{ render_table(data) }}
+    {{ render_table(data, titles=titles) }}
 {% endblock %}

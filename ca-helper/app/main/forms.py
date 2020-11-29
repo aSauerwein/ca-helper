@@ -4,7 +4,11 @@ from wtforms.validators import DataRequired
 
 
 class CertificateForm(FlaskForm):
-    CN = StringField("Subject Common Name", validators=[DataRequired()])
+    Country = StringField("Country")
+    State_Provice = StringField("State or Provice")
+    Locality = StringField("Locality")
+    Organization = StringField("Organization")
+    Common = StringField("Subject Common Name", validators=[DataRequired()])
     SAN = TextField("Subject Alternative Name")
-    CA = SelectField("Certificate Authority", choices=["a","b","c"])
+    CA = SelectField("Certificate Authority")
     submit = SubmitField("Submit")

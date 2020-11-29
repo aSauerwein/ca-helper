@@ -6,12 +6,12 @@ class Certificate(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     public_key = db.Column(db.Text)
     private_key = db.Column(db.Text)
-    cn = db.Column(db.String(64))
-    san = db.Column(db.String(64))
-    valid_from = db.Column(db.DateTime)
-    valid_to = db.Column(db.DateTime)
+    subject = db.Column(db.String(64))
+    not_valid_before = db.Column(db.DateTime)
+    not_valid_after = db.Column(db.DateTime)
     template_id = db.Column(db.Integer, db.ForeignKey("templates.id"))
     ca_id = db.Column(db.Integer, db.ForeignKey("certificates.id"))
+    ca = db.Column(db.Boolean)
 
 
 class Template(db.Model):

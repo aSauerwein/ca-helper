@@ -12,6 +12,7 @@ flask-migrate = "^2.5.3"
 flask-wtf = "^0.14.3"
 flask-nav = "^0.6"
 bootstrap-flask = "^1.5.1"
+cryptography = "^3.2.1"
 
 [tool.poetry.dev-dependencies]
 pylama = "^7.7.1"
