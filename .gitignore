@@ -140,4 +140,4 @@ cython_debug/
 
 #custom
 *.ova
-.sqlite
+*.sqlite
