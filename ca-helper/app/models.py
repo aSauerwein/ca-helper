@@ -10,7 +10,8 @@ class Certificate(db.Model):
     not_valid_before = db.Column(db.DateTime)
     not_valid_after = db.Column(db.DateTime)
     template_id = db.Column(db.Integer, db.ForeignKey("templates.id"))
-    ca_id = db.Column(db.Integer, db.ForeignKey("certificates.id"))
+    issuer_id = db.Column(db.Integer, db.ForeignKey("certificates.id"), nullable=False)
+    issuer = db.relationship("Certificate", remote_side=[id])
     ca = db.Column(db.Boolean)
 
 
@@ -18,4 +19,4 @@ class Template(db.Model):
     __tablename__ = "templates"
     id = db.Column(db.Integer, primary_key=True)
     key_usage = db.Column(db.String)
-    certificates = db.relationship('Certificate', backref='template')
+    certificates = db.relationship("Certificate", backref="template")

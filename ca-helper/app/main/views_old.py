@@ -9,6 +9,7 @@ from pathlib import Path
 root_key_path = Path("cfssl-ca/rootca.key")
 root_crt_path = Path("flask-app/static/rootca.pem")
 
+
 @main.route("/")
 def index():
     return render_template("index.html", rootca=root_crt_path.is_file())

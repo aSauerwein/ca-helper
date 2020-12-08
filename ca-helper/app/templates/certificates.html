@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% from "bootstrap/table.html" import render_table %}
+{% from "macros.html" import render_table %}
 {% block content %}
     {{super()}}
     <a class="btn btn-primary" href="{{url_for('.new_certificate')}}">ADD</a>
     <h1>Certificates</h1>
-    {{ render_table(data, titles=titles) }}
+    {{ render_table(data, show_actions=True) }}
 {% endblock %}
